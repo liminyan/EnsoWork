@@ -14,13 +14,24 @@ dataframe = pd.read_excel(fileread)
 dataset = dataframe.values
 print(dataset)
 
-train_size = int(len(dataset) * 0.8)
-train, test = dataset[0:train_size,:], dataset[train_size:len(dataset),:]
-print(train)
-print(test)
+datasize = len(dataset)
+print (datasize)
+print(dataset[0])
+
+train_size = int(datasize * 0.8)
+train, test = dataset[0:train_size,:], dataset[train_size:datasize,:]
+# print(train)
+# print(test)
 x_train, y_train = train[:,0:end],train[:,end]
 x_test, y_test = test[:,0:end],test[:,end]
 y_test_most = test[:,0]
+
+###########2.0test-regression
+
+def self_def_regression_analyse():
+    pass
+
+
 ###########2.回归部分##########
 def try_different_method(model,name):
     model.fit(x_train,y_train)
@@ -32,8 +43,8 @@ def try_different_method(model,name):
     f.write(str(train_result))
     f.write(str(result))
     f.close()
-    print(np.array(train_result))
-    print(result)
+    # print(np.array(train_result))
+    # print(result)
     #print(y_test)
     rmse1 = math.sqrt(mean_squared_error(y_test, result))
     rmse2 = math.sqrt(mean_squared_error(y_test, y_test_most))
@@ -46,6 +57,7 @@ def try_different_method(model,name):
     plt.legend()
     #plt.savefig("rmse"+name+".png")
     plt.show()
+    print('rmse1: %f,rmse2: %f,socre: %f' % (rmse1, rmse2, score))
 
 ###########3.具体方法选择##########
 ####3.1决策树回归####

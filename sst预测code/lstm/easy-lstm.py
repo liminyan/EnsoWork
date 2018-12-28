@@ -7,6 +7,7 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
+from sklearn import metrics
 
 
 # load the dataset
@@ -16,7 +17,7 @@ dataset = dataframe.values
 #dataset = dataset.astype('float32')
 #print(dataset)
 plt.plot(dataset)
-plt.show()
+# plt.show()
 
 # X is the number of passengers at a given time (t) and Y is the number of passengers at the next time (t + 1).
 
@@ -78,7 +79,7 @@ testPredict = model.predict(testX)
 
 #print(trainY)
 #print(trainPredict[:,0])
-trainScore = math.sqrt(mean_squared_error(trainY[0], trainPredict[:,0]))
+trainScore = math.sqrt(metrics.mean_squared_error(trainY[0], trainPredict[:,0]))
 print('Train Score: %.2f RMSE' % (trainScore))
 print(testY[0])
 print(testPredict[:,0])
