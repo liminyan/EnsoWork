@@ -36,7 +36,7 @@ numpy.random.seed(7)
 
 
 # normalize the dataset
-#scaler = MinMaxScaler(feature_range=(0, 1))
+scaler = MinMaxScaler(feature_range=(0, 1))
 #dataset = scaler.fit_transform(dataset)
 
 
@@ -51,25 +51,26 @@ look_back = 1
 trainX, trainY = create_dataset(train, look_back)
 testX, testY = create_dataset(test, look_back)
 print(trainX.shape)
-print(testX.shape)
+print(trainY.shape)
 
 # reshape input to be [samples, time steps, features]
+print(trainX.shape)
 trainX = numpy.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))
 testX = numpy.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 # create and fit the LSTM network
-#print(trainX.shape)
-#print(trainX)
-#print(trainY)
+print(trainX.shape)
+# print(trainX)
+# print(trainY)
 model = Sequential()
-model.add(LSTM(30, input_shape=(1, look_back)))
+model.add(LSTM(30, input_shape=(trainX.shape[1],trainX.shape[2])))
 model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
 model.fit(trainX, trainY, epochs=50, batch_size=1, verbose=2)
 
-# make predictions
-trainPredict = model.predict(trainX)
-#print(trainPredict)
-testPredict = model.predict(testX)
+# # make predictions
+# trainPredict = model.predict(trainX)
+# #print(trainPredict)
+# testPredict = model.predict(testX)
 #print(trainY)
 # invert predictions
 #trainPredict = scaler.inverse_transform(trainPredict)
@@ -79,26 +80,26 @@ testPredict = model.predict(testX)
 
 #print(trainY)
 #print(trainPredict[:,0])
-trainScore = math.sqrt(metrics.mean_squared_error(trainY[0], trainPredict[:,0]))
-print('Train Score: %.2f RMSE' % (trainScore))
-print(testY[0])
-print(testPredict[:,0])
-testScore = math.sqrt(mean_squared_error(testY[0], testPredict[:,0]))
-print('Test Score: %.2f RMSE' % (testScore))
+# trainScore = math.sqrt(metrics.mean_squared_error(trainY[0], trainPredict[:,0]))
+# print('Train Score: %.2f RMSE' % (trainScore))
+# print(testY[0])
+# print(testPredict[:,0])
+# testScore = math.sqrt(mean_squared_error(testY[0], testPredict[:,0]))
+# print('Test Score: %.2f RMSE' % (testScore))
 
-# shift train predictions for plotting
-trainPredictPlot = numpy.empty_like(dataset)
-trainPredictPlot[:, :] = numpy.nan
-trainPredictPlot[look_back:len(trainPredict)+look_back, :] = trainPredict
+# # shift train predictions for plotting
+# trainPredictPlot = numpy.empty_like(dataset)
+# trainPredictPlot[:, :] = numpy.nan
+# trainPredictPlot[look_back:len(trainPredict)+look_back, :] = trainPredict
 
-# shift test predictions for plotting
-testPredictPlot = numpy.empty_like(dataset)
-testPredictPlot[:, :] = numpy.nan
-testPredictPlot[len(trainPredict)+(look_back*2)+1:len(dataset)-1, :] = testPredict
+# # shift test predictions for plotting
+# testPredictPlot = numpy.empty_like(dataset)
+# testPredictPlot[:, :] = numpy.nan
+# testPredictPlot[len(trainPredict)+(look_back*2)+1:len(dataset)-1, :] = testPredict
 
-# plot baseline and predictions
-plt.plot(scaler.inverse_transform(dataset))
-plt.plot(trainPredictPlot)
-plt.plot(testPredictPlot)
-plt.show()
+# # plot baseline and predictions
+# plt.plot(scaler.inverse_transform(dataset))
+# plt.plot(trainPredictPlot)
+# plt.plot(testPredictPlot)
+# plt.show()
 

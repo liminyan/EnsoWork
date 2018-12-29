@@ -59,11 +59,13 @@ look_back = 5
 trainX, trainY = create_dataset(train, look_back,5)
 
 testX, testY = create_dataset(test, look_back,5)
-print(trainX)
-print(trainY)
+print(trainX.shape)
+# print(trainY)
 
 # reshape input to be [samples, time steps, features]
 trainX = numpy.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))
+print(trainX.shape)
+
 testX = numpy.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 # create and fit the LSTM network
 #print(trainX.shape)
